@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">FluencyStage</string>
+    <string name="blueCloudText1A">Give as many words as you can think of from the letter "A". Tap the microphone below to speak.</string>
+    <string name="blueCloudText1F">Give as many words as you can think of from the letter "F". Tap the microphone below to speak.</string>
+    <string name="blueCloudText1S">Give as many words as you can think of from the letter "S". Tap the microphone below to speak.</string>
+    <string name="blueCloudText2">Make sure you don\'t use proper nouns , numbers and different forms of a verb.</string>
+    <string name="clock">1:00</string>
+    <string name="buttonText1">Press on the mic to speak</string>
+    <string name="buttonText2">Listening...</string>
+</resources>
