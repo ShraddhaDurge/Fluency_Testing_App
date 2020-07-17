@@ -10,19 +10,14 @@
     android:background="#F4C31D">
 
 
-    <!--<ImageView
-        android:id="@+id/timer"
-        android:layout_width="250dp"
-        android:layout_height="80dp"
+    <TextView
+        android:id="@+id/timerclock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="55sp"
         android:layout_gravity="center_horizontal"
-        android:scaleType="centerCrop" /> !-->
-
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/timer"
-        android:layout_width="150dp"
-        android:layout_height="80dp"
-        android:scaleType="fitCenter"
-        android:layout_gravity="center_horizontal"/>
+        android:textColor="#000"
+        android:text="1:00"/>
 
 
    <!-- <LinearLayout
@@ -43,13 +38,15 @@
 
     </LinearLayout> !-->
 
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:background="@drawable/chat"
         android:orientation="vertical"
-        android:paddingBottom="1dp">
+        android:paddingBottom="1dp"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/txt_msg1"
@@ -60,7 +57,7 @@
             android:textSize="15sp"
             android:maxWidth="270dp"
             android:paddingTop="5dp"
-            android:paddingBottom="15dp"
+            android:paddingBottom="20dp"
             android:paddingRight="10dp"
             android:gravity="center_horizontal"
             android:textAlignment="center"
@@ -84,7 +81,7 @@
             android:textSize="15sp"
             android:maxWidth="270dp"
             android:paddingTop="5dp"
-            android:paddingBottom="15dp"
+            android:paddingBottom="20dp"
             android:paddingRight="10dp"
             android:gravity="center_horizontal"
             android:textAlignment="center"
@@ -95,15 +92,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:layout_weight="0.9">
+        android:layout_weight="0.5">
 
         <ListView
             android:id="@+id/list_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="25dp"
             android:divider="@null"
             android:listSelector="@android:color/transparent"
             android:transcriptMode="alwaysScroll"
@@ -113,8 +110,8 @@
 
     <ImageView
         android:id="@+id/processing"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
         android:layout_gravity="right"
         android:scaleType="centerCrop"
         android:layout_marginRight="20dp"
@@ -137,7 +134,7 @@
             android:fontFamily="casual"
             android:textColor="#000"
             android:textSize="15sp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="5dp"
             android:text="@string/buttonText1"
             />
 

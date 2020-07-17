@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         chatMessages = new ArrayList<>();
         words = new ArrayList<>();
         allWords = new ArrayList<>();
+        allWords.add(" ");
         listView =  findViewById(R.id.list_msg);
         processing = findViewById(R.id.processing);
         speakBtn = findViewById(R.id.micbtn);
@@ -136,16 +138,13 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
    /* private String selectLetter(){
        String s = "";
        int i = (int)((Math.random())*100) % 3;
-
        switch (i) {
            case 0 : s = getResources().getString(R.string.blueCloudText1A);
            letter = 'A';
             break;
-
            case 1:  s = getResources().getString(R.string.blueCloudText1F);
                letter = 'F';
                break;
-
            case 2:  s = getResources().getString(R.string.blueCloudText1S);
                letter = 'S';
                break;
@@ -194,18 +193,21 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         buttonText.setText(getResources().getString(R.string.buttonText1));
         buttonUnpressed();
 
-        for(int i=0; i<s.length; i++){
-            if(s[i] != " ") {
-                words.add(s[i]);
-                if (!Character.isUpperCase(s[i].charAt(0))
-                        && Character.toUpperCase(s[i].charAt(0)) == letter
-                        && !allWords.contains(s[i])) { // condition to check proper nouns, first character and repetition
+        for (int i = 0; i < s.length; i++) {
+            if (s[i] != " " && s[i] != "") {
+                words.add(s[i].trim());
+                char c = words.get(i).charAt(0);
+                if (!Character.isUpperCase(c)
+                        && Character.toUpperCase(c) == letter
+                        && !allWords.contains(words.get(i))) { // condition to check proper nouns, first character and repetition
 
                     correctWords++;
                 }
                 allWords.add(s[i]);
+
             }
         }
+
         setWords();
         changeToImage();
     }
@@ -257,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         Log.i(LOG_TAG, "onBeginningOfSpeech");
         changeToGif();
         //Toast.makeText(MainActivity.this, "onBeginningOfSpeech", Toast
-          //         .LENGTH_SHORT).show();
+        //         .LENGTH_SHORT).show();
     }
 
     @Override
@@ -357,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             case REQUEST_RECORD_PERMISSION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //Toast.makeText(MainActivity.this, "Permission Granted!", Toast
-                         //   .LENGTH_SHORT).show();
+                    //   .LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainActivity.this, "Permission Denied!", Toast
                             .LENGTH_SHORT).show();
@@ -365,20 +367,16 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
     }
 
+    @SuppressLint("ResourceType")
     void setTimer(){
-        //ImageView timer = findViewById(R.id.timer);
-        //Glide.with(this).load(R.raw.timer).into(timer);
-
-        GifImageView timer = findViewById(R.id.timer);
-        timer.setBackgroundResource(R.raw.timer);
+        final TextView timer = findViewById(R.id.timerclock);
         new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-
+                timer.setText("00:" + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
-
                 onStop();
                 speech.destroy();
                 stopSpeech = true;

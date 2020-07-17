@@ -5,22 +5,24 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:background="@drawable/untitled"
         android:orientation="vertical"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/txt_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:fontFamily="casual"
             android:textSize="15sp"
             android:paddingVertical="7dp"
             android:paddingLeft="10dp"
-            android:paddingBottom="40dp"
-            android:layout_gravity="center_horizontal"
+            android:paddingBottom="20dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"
             android:textAlignment="center"
             android:paddingRight="15dp"
             android:textColor="#000" />
