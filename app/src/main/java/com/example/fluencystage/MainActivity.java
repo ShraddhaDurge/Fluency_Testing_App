@@ -26,6 +26,9 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.droidsonroids.gif.GifImageButton;
+import pl.droidsonroids.gif.GifImageView;
+
 
 //CHAT BUBBLE// http://www.devexchanges.info/2016/03/design-chat-bubble-ui-in-android.html
 //9PATCH// https://romannurik.github.io/AndroidAssetStudio/nine-patches.html#source.type=image&sourceDensity=480&name=chat
@@ -34,13 +37,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements RecognitionListener {
 
     private ListView listView;
-    private TextView clk;
     private List<ChatMessage> chatMessages;
     private ArrayAdapter<ChatMessage> adapter;
     private SpeechRecognizer speech;
     private static final int REQUEST_RECORD_PERMISSION = 100;
     private Intent recognizerIntent;
-    boolean listening = false;
     private String LOG_TAG = "VoiceRecognitionActivity";
     private boolean stopSpeech = false;
     private ArrayList<String> words;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private ImageView processing;
     private ImageButton speakBtn;
     private TextView buttonText;
+    private GifImageView loading;
+    private ImageView mic;
     char letter;
     int correctWords;
 
@@ -61,29 +64,34 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         askPermission();
 
         chatMessages = new ArrayList<>();
-        clk = findViewById(R.id.clock);
         words = new ArrayList<>();
         allWords = new ArrayList<>();
         listView =  findViewById(R.id.list_msg);
         processing = findViewById(R.id.processing);
         speakBtn = findViewById(R.id.micbtn);
+        loading = findViewById(R.id.loading);
         buttonText = findViewById(R.id.micText);
+        mic = findViewById(R.id.mic);
         setSpeechRecognition();
 
         //set ListView as adapter first
         adapter = new TextAdapter(this, R.layout.leftcloud, chatMessages);
         listView.setAdapter(adapter);
 
-        ChatMessage text1 = new ChatMessage(selectLetter(),false);
-        ChatMessage text2 = new ChatMessage(getResources().getString(R.string.blueCloudText2),false);
-        chatMessages.add(text1);
-        chatMessages.add(text2);
-        adapter.notifyDataSetChanged();
+        letter = 'A';
 
-        setTimer(); //60sec timer
+        /*List<ChatMessage> chatMessages1 = new ArrayList<>();
+        ListView blueCloud = findViewById(R.id.list_msg_blue);
+        chatMessages1.add(new ChatMessage(getResources().getString(R.string.blueCloudText1),false));
+        chatMessages1.add(new ChatMessage(getResources().getString(R.string.blueCloudText2),false));
+        ArrayAdapter<ChatMessage> adapter1 = new TextAdapter(this, R.layout.leftcloud, chatMessages1);
+        blueCloud.setAdapter(adapter1);
+        adapter1.notifyDataSetChanged();*/
 
-        final boolean[] pressed = {false};
+        speakBtn.setVisibility(View.VISIBLE);
 
+
+        final int[] c = {0};
         //event for button SPEAK button
         speakBtn.setOnTouchListener(new View.OnTouchListener() {
 
@@ -93,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     switch (motionEvent.getAction()) {
                         case MotionEvent.ACTION_UP:
                             speech.stopListening();
-                            pressed[0] = false;
+                            buttonUnpressed();
                             if(words.isEmpty()){
                                 buttonText.setText(getResources().getString(R.string.buttonText1));
                                 onStop();
@@ -102,12 +110,13 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                             break;
 
                         case MotionEvent.ACTION_DOWN:
-                            //if(!listening) {
-                                listening = true;
-                                speech.startListening(recognizerIntent);
-                           // }
-                                buttonText.setText(getResources().getString(R.string.buttonText2));
-                                pressed[0] = true;
+                            if(c[0] ==0) {
+                                setTimer(); //60sec timer
+                                c[0]++;
+                            }
+                            speech.startListening(recognizerIntent);
+                            buttonText.setText(getResources().getString(R.string.buttonText2));
+                            buttonPressed();
                             break;
                     }
                 } else {
@@ -124,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     }
 
-    private String selectLetter(){
+   /* private String selectLetter(){
        String s = "";
        int i = (int)((Math.random())*100) % 3;
 
@@ -143,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
        }
        return s;
     }
+    */
 
     void setSpeechRecognition(){
         recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -181,26 +191,21 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
         String[] s = matches.get(0).trim().split(" ");
 
-        /*ChatMessage word = new ChatMessage(matches.get(0),true);
-        chatMessages.add(word);
-        adapter.notifyDataSetChanged();*/ // to display all words in one cloud
-
-        listening = false;
         buttonText.setText(getResources().getString(R.string.buttonText1));
+        buttonUnpressed();
 
         for(int i=0; i<s.length; i++){
             if(s[i] != " ") {
                 words.add(s[i]);
-                s[i].toUpperCase();
-                if(s[i].charAt(0) ==  letter){
-                    if(!allWords.contains(s[i])) {
-                        correctWords++;
-                    }
+                if (!Character.isUpperCase(s[i].charAt(0))
+                        && Character.toUpperCase(s[i].charAt(0)) == letter
+                        && !allWords.contains(s[i])) { // condition to check proper nouns, first character and repetition
+
+                    correctWords++;
                 }
                 allWords.add(s[i]);
             }
         }
-
         setWords();
         changeToImage();
     }
@@ -208,9 +213,22 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private void changeToGif(){
         /*from raw folder*/
         Glide.with(this).load(R.raw.listening).into(processing);
+
     }
+
+    private void buttonPressed(){
+        mic.setVisibility(View.INVISIBLE);
+        loading.setVisibility(View.VISIBLE);
+    }
+
+    private void buttonUnpressed(){
+        mic.setVisibility(View.VISIBLE);
+        loading.setVisibility(View.INVISIBLE);
+    }
+
     private void changeToImage() {
         processing.setImageDrawable(getResources().getDrawable(R.drawable.typing));
+
     }
     @Override
     public void onResume() {
@@ -256,7 +274,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     @Override
     public void onEndOfSpeech() {
         Log.i(LOG_TAG, "onEndOfSpeech");
-
     }
 
     @Override
@@ -264,8 +281,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         String errorMessage = getErrorText(errorCode);
         Log.d(LOG_TAG, "FAILED " + errorMessage);
         switch (errorMessage){
-            case "No match" : listening = false;
+            case "No match" :
                 changeToImage();
+                buttonUnpressed();
                 buttonText.setText(getResources().getString(R.string.buttonText1));
                 break;
         }
@@ -348,15 +366,18 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     }
 
     void setTimer(){
-        new CountDownTimer(59000, 1000) {
+        //ImageView timer = findViewById(R.id.timer);
+        //Glide.with(this).load(R.raw.timer).into(timer);
+
+        GifImageView timer = findViewById(R.id.timer);
+        timer.setBackgroundResource(R.raw.timer);
+        new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                clk.setText("00:" + millisUntilFinished / 1000);
+
             }
 
             public void onFinish() {
-                clk.setTextSize(30);
-                clk.setText("Total correct words : " + Integer.toString(correctWords));
 
                 onStop();
                 speech.destroy();
@@ -364,7 +385,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
                 changeToImage();
                 buttonText.setText(getResources().getString(R.string.buttonText1));
-
+                buttonUnpressed();
             }
         }.start();
     }

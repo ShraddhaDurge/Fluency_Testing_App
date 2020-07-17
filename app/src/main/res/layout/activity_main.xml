@@ -10,22 +10,92 @@
     android:background="#F4C31D">
 
 
+    <!--<ImageView
+        android:id="@+id/timer"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop" /> !-->
 
-    <TextView
-        android:id="@+id/clock"
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/timer"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center_horizontal"/>
+
+
+   <!-- <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="0.9">
+
+        <ListView
+            android:id="@+id/list_msg_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:divider="@null"
+            android:listSelector="@android:color/transparent"
+            android:transcriptMode="alwaysScroll"
+            />
+
+    </LinearLayout> !-->
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp"
-        android:fontFamily="casual"
-        android:textSize="50sp"
-        android:text="@string/clock"
-        />
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/chat"
+        android:orientation="vertical"
+        android:paddingBottom="1dp">
+
+        <TextView
+            android:id="@+id/txt_msg1"
+            android:fontFamily="casual"
+            android:text="@string/blueCloudText1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="15sp"
+            android:maxWidth="270dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="10dp"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textColor="#fff" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/chat"
+        android:orientation="vertical"
+        android:paddingBottom="1dp">
+
+        <TextView
+            android:id="@+id/txt_msg2"
+            android:fontFamily="casual"
+            android:text="@string/blueCloudText2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="15sp"
+            android:maxWidth="270dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="10dp"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textColor="#fff" />
+
+    </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="200dp"
         android:layout_marginTop="10dp"
         android:layout_weight="0.9">
 
@@ -60,7 +130,7 @@
 
         <TextView
             android:id="@+id/micText"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -71,14 +141,37 @@
             android:text="@string/buttonText1"
             />
 
-        <ImageButton
-        android:id="@+id/micbtn"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/button_background"
-            android:layout_marginBottom="20dp"/>
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center">
 
+            <ImageButton
+                android:id="@+id/micbtn"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:background="#F4C31D"
+                android:visibility="visible"/>
+            <ImageView
+                android:id="@+id/mic"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mic"
+                android:visibility="visible"/>
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/loading"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/loading"
+                android:visibility="invisible"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 
