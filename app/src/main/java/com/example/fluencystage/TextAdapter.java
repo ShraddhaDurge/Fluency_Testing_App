@@ -26,15 +26,12 @@ public class TextAdapter extends ArrayAdapter<ChatMessage> {
         ChatMessage chatMessage = getItem(position);
 
 
-        if (chatMessage.isWord()) {
-            layoutResource = R.layout.rightcloud;
-        } else {
-            layoutResource = R.layout.leftcloud;
-        }
 
-            convertView = inflater.inflate(layoutResource, parent, false);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
+        layoutResource = R.layout.rightcloud;
+
+        convertView = inflater.inflate(layoutResource, parent, false);
+        holder = new ViewHolder(convertView);
+        convertView.setTag(holder);
 
 
         //set message content

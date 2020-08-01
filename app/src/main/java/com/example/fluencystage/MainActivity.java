@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import pl.droidsonroids.gif.GifImageButton;
 import pl.droidsonroids.gif.GifImageView;
@@ -154,11 +155,15 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     */
 
     void setSpeechRecognition(){
+        String langpref = "hi-IN";
+
         recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
-                "en");
+                langpref);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, langpref);
 
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 2);
 
@@ -172,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     //wil set the words spoken by a user in the cloud boxes
     void setWords(){
         for(int i=0; i<words.size() ; i++) {
-            ChatMessage word = new ChatMessage(words.get(i),true);
+            ChatMessage word = new ChatMessage(words.get(i));
             chatMessages.add(word);
         }
         adapter.notifyDataSetChanged();
